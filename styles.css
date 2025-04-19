@@ -698,8 +698,275 @@ header p {
         padding: 1rem;
     }
     
+    .header-content {
+        margin-bottom: 1rem;
+    }
+
+    .header-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .header-content p {
+        font-size: 1rem;
+    }
+
     .models-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .model-card {
+        padding: 1rem;
+    }
+
+    .model-name {
+        font-size: 1.2rem;
+    }
+
+    .chat-section {
+        margin-top: 1rem;
+    }
+
+    .chat-messages {
+        height: 300px;
+    }
+
+    .chat-input {
+        min-height: 80px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    .chat-send {
+        padding: 0.75rem 1rem;
+    }
+
+    .multi-chat-interface {
+        padding: 0.5rem;
+    }
+
+    .multi-chat-models {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        max-height: 200px;
+    }
+
+    .multi-chat-content {
+        flex-direction: column;
+    }
+
+    .multi-chat-messages-container {
+        padding: 1rem;
+    }
+
+    .multi-chat-input {
+        min-height: 80px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    .multi-chat-send {
+        padding: 0.75rem 1rem;
+    }
+
+    .message {
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+    }
+
+    .message .image-preview.generated-image {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+    }
+
+    .image-preview-container {
+        max-height: 100px;
+    }
+
+    .image-preview {
+        width: 40px;
+        height: 40px;
+    }
+
+    .model-params {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .param-group {
+        width: 100%;
+    }
+
+    .param-input {
+        width: 100%;
+    }
+
+    .search-container {
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    .theme-toggle {
+        padding: 0.75rem;
+    }
+
+    .multi-chat-button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .multi-chat-header {
+        padding: 0.75rem;
+    }
+
+    .multi-chat-title {
+        font-size: 1.2rem;
+    }
+
+    .multi-chat-header-buttons {
+        gap: 0.25rem;
+    }
+
+    .clear-chat-button,
+    .export-chat-button {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .model-checkbox {
+        padding: 0.75rem;
+    }
+
+    .model-checkbox label {
+        font-size: 0.9rem;
+    }
+
+    /* Improve touch targets */
+    button, 
+    .model-checkbox,
+    .param-input,
+    .chat-input,
+    .multi-chat-input {
+        min-height: 44px; /* Apple's recommended minimum touch target size */
+    }
+
+    /* Adjust spacing for better mobile readability */
+    .message-content {
+        padding-right: 2rem;
+    }
+
+    .message-images {
+        gap: 0.25rem;
+    }
+
+    .tool-calls {
+        padding: 0.5rem;
+    }
+
+    .tool-call {
+        padding: 0.5rem;
+    }
+
+    .tool-arguments {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .chat-send {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .multi-chat-input-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .multi-chat-send {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .image-attach-button {
+        align-self: flex-start;
+    }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .header-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .model-card {
+        padding: 0.75rem;
+    }
+
+    .chat-messages {
+        height: 250px;
+    }
+
+    .multi-chat-messages-container {
+        padding: 0.75rem;
+    }
+
+    .message {
+        padding: 0.5rem;
+    }
+
+    .message .image-preview.generated-image {
+        max-width: 250px;
+    }
+
+    .input-row,
+    .multi-chat-input-row {
+        gap: 0.25rem;
+    }
+
+    .chat-send,
+    .multi-chat-send {
+        margin-top: 0.25rem;
+    }
+}
+
+/* Prevent text selection on buttons and interactive elements */
+button,
+.model-checkbox,
+.param-input,
+.chat-input,
+.multi-chat-input {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
+/* Improve scrolling performance on mobile */
+.chat-messages,
+.multi-chat-messages-container,
+.multi-chat-models {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* Optimize animations for mobile */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 
