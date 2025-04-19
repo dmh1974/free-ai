@@ -689,10 +689,12 @@ async function processRequestQueue() {
             const width = request.modelCard.querySelector('#width')?.value || '1024';
             const height = request.modelCard.querySelector('#height')?.value || '1024';
             const seed = request.modelCard.querySelector('#seed')?.value || '42';
+            const modelId = request.modelCard.getAttribute('data-model-id');
             
             params.append('width', width);
             params.append('height', height);
             params.append('seed', seed);
+            params.append('model', modelId);
             
             const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(request.prompt)}?${params.toString()}`;
             
@@ -1341,10 +1343,12 @@ function initializeChat(card, modelName) {
             const width = modelCard.querySelector('#width')?.value || '1024';
             const height = modelCard.querySelector('#height')?.value || '1024';
             const seed = modelCard.querySelector('#seed')?.value || '42';
+            const modelId = modelCard.getAttribute('data-model-id');
             
             params.append('width', width);
             params.append('height', height);
             params.append('seed', seed);
+            params.append('model', modelId);
         }
         
         const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?${params.toString()}`;
