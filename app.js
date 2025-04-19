@@ -66,6 +66,20 @@ function initializeMultiChat() {
     const multiChatImagePreviewContainer = document.querySelector('.multi-chat-input-container .image-preview-container');
     const modelCheckboxes = document.getElementById('model-checkboxes');
     const clearChatButton = document.querySelector('.multi-chat-interface .clear-chat-button');
+    const multiChatModels = document.querySelector('.multi-chat-models');
+    const multiChatModelsToggle = document.querySelector('.multi-chat-models-toggle');
+
+    // Initialize models panel collapsed state
+    const savedCollapsedState = localStorage.getItem('multiChatModelsCollapsed');
+    if (savedCollapsedState === 'true') {
+        multiChatModels.classList.add('collapsed');
+    }
+
+    // Toggle models panel
+    multiChatModelsToggle.addEventListener('click', () => {
+        multiChatModels.classList.toggle('collapsed');
+        localStorage.setItem('multiChatModelsCollapsed', multiChatModels.classList.contains('collapsed'));
+    });
 
     // Load saved selected models
     const savedSelectedModels = JSON.parse(localStorage.getItem('multiChatSelectedModels') || '[]');
@@ -939,30 +953,47 @@ function createModelCard(model, source, type) {
                     </div>
                     <div class="chat-messages"></div>
                     <div class="chat-input-container">
-                        <div class="model-params">
-                            <div class="param-group">
-                                <label for="width">Width:</label>
-                                <input type="number" id="width" class="param-input" value="${savedImageParams.width || 1024}" min="1" max="1024">
-                            </div>
-                            <div class="param-group">
-                                <label for="height">Height:</label>
-                                <input type="number" id="height" class="param-input" value="${savedImageParams.height || 1024}" min="1" max="1024">
-                            </div>
-                            <div class="param-group">
-                                <label for="seed">Seed:</label>
-                                <input type="number" id="seed" class="param-input" value="${savedImageParams.seed || 42}">
-                            </div>
-                            <div class="param-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="one-shot" class="param-input" checked disabled>
-                                    One-Shot
-                                </label>
-                            </div>
-                        </div>
                         <div class="image-preview-container"></div>
                         <div class="input-row">
+                            <button class="image-attach-button" title="Attach images">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </button>
                             <input type="text" class="chat-input" placeholder="Describe the image you want to generate...">
                             <button class="chat-send">Generate</button>
+                        </div>
+                        <div class="model-params">
+                            <div class="model-params-header">
+                                <span class="model-params-title">Settings</span>
+                                <div class="model-params-toggle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="model-params-content">
+                                <div class="param-group">
+                                    <label for="width">Width:</label>
+                                    <input type="number" id="width" class="param-input" value="${savedImageParams.width || 1024}" min="1" max="1024">
+                                </div>
+                                <div class="param-group">
+                                    <label for="height">Height:</label>
+                                    <input type="number" id="height" class="param-input" value="${savedImageParams.height || 1024}" min="1" max="1024">
+                                </div>
+                                <div class="param-group">
+                                    <label for="seed">Seed:</label>
+                                    <input type="number" id="seed" class="param-input" value="${savedImageParams.seed || 42}">
+                                </div>
+                                <div class="param-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="one-shot" class="param-input" checked disabled>
+                                        One-Shot
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1023,34 +1054,6 @@ function createModelCard(model, source, type) {
                             </div>
                         </div>
                     ` : ''}
-                    <div class="model-params">
-                        <div class="param-group">
-                            <label for="system-prompt">System Prompt:</label>
-                            <textarea id="system-prompt" class="param-input" rows="2">${savedParams.systemPrompt || "You are a helpful assistant."}</textarea>
-                        </div>
-                        <div class="param-group">
-                            <label for="temperature">Temperature:</label>
-                            <input type="number" id="temperature" class="param-input" value="${savedParams.temperature || 0.9}" min="0" max="2" step="0.1">
-                        </div>
-                        <div class="param-group">
-                            <label for="top-p">Top P:</label>
-                            <input type="number" id="top-p" class="param-input" value="${savedParams.topP || 0.7}" min="0" max="1" step="0.1">
-                        </div>
-                        <div class="param-group">
-                            <label for="max-tokens">Max Tokens:</label>
-                            <input type="number" id="max-tokens" class="param-input" value="${savedParams.maxTokens || 500}" min="1" max="4096">
-                        </div>
-                        <div class="param-group">
-                            <label for="seed">Seed:</label>
-                            <input type="number" id="seed" class="param-input" value="${savedParams.seed || 42}">
-                        </div>
-                        <div class="param-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="one-shot" class="param-input" ${(isAudioModel || isImageModel) ? 'checked disabled' : (savedParams.oneShot ? 'checked' : '')}>
-                                One-Shot
-                            </label>
-                        </div>
-                    </div>
                     <div class="image-preview-container"></div>
                     <div class="input-row">
                         <button class="image-attach-button" title="Attach images">
@@ -1062,6 +1065,44 @@ function createModelCard(model, source, type) {
                         </button>
                         <input type="text" class="chat-input" placeholder="Type your message...">
                         <button class="chat-send">Send</button>
+                    </div>
+                    <div class="model-params">
+                        <div class="model-params-header">
+                            <span class="model-params-title">Settings</span>
+                            <div class="model-params-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="model-params-content">
+                            <div class="param-group">
+                                <label for="system-prompt">System Prompt:</label>
+                                <textarea id="system-prompt" class="param-input" rows="2">${savedParams.systemPrompt || "You are a helpful assistant."}</textarea>
+                            </div>
+                            <div class="param-group">
+                                <label for="temperature">Temperature:</label>
+                                <input type="number" id="temperature" class="param-input" value="${savedParams.temperature || 0.9}" min="0" max="2" step="0.1">
+                            </div>
+                            <div class="param-group">
+                                <label for="top-p">Top P:</label>
+                                <input type="number" id="top-p" class="param-input" value="${savedParams.topP || 0.7}" min="0" max="1" step="0.1">
+                            </div>
+                            <div class="param-group">
+                                <label for="max-tokens">Max Tokens:</label>
+                                <input type="number" id="max-tokens" class="param-input" value="${savedParams.maxTokens || 500}">
+                            </div>
+                            <div class="param-group">
+                                <label for="seed">Seed:</label>
+                                <input type="number" id="seed" class="param-input" value="${savedParams.seed || 42}">
+                            </div>
+                            <div class="param-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="one-shot" class="param-input" ${(isAudioModel || isImageModel) ? 'checked disabled' : (savedParams.oneShot ? 'checked' : '')}>
+                                    One-Shot
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1096,6 +1137,23 @@ function initializeChat(card, modelName) {
     const voiceSelector = card.querySelector('.voice-selector');
     const clearChatButton = card.querySelector('.clear-chat-button');
     const fullscreenButton = card.querySelector('.fullscreen-button');
+    
+    // Initialize collapsible settings
+    const modelParams = card.querySelector('.model-params');
+    const modelParamsHeader = card.querySelector('.model-params-header');
+    const modelParamsContent = card.querySelector('.model-params-content');
+    
+    if (modelParams && modelParamsHeader && modelParamsContent) {
+        // Set default to collapsed
+        modelParams.classList.add('collapsed');
+        localStorage.setItem(`modelParamsCollapsed_${modelName}`, 'true');
+        
+        modelParamsHeader.addEventListener('click', () => {
+            modelParams.classList.toggle('collapsed');
+            // Save collapsed state
+            localStorage.setItem(`modelParamsCollapsed_${modelName}`, modelParams.classList.contains('collapsed'));
+        });
+    }
     
     // Initialize image parameters if this is an image model
     const modelTypeElement = card.querySelector('.model-type');
